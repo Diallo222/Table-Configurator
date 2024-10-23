@@ -17,6 +17,7 @@ export function Table(props) {
   useEffect(() => {
     materials.Metal.color = new THREE.Color(legsColor);
   },[legsColor])
+  
 
   const plateRef = useRef();
   const leftLegsRef = useRef();

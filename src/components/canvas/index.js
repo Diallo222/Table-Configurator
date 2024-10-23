@@ -1,3 +1,3 @@
 import Scene from "./Scene";
-
-export { Scene }
+import Effects from "./Effects";
+export { Scene , Effects }

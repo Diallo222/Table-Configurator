@@ -10,5 +10,8 @@ export const useConfiguratorStore = create((set) => ({
   
   tableWidth: 100,
   setTableWidth: (tableWidth) => set({ tableWidth }),
+
+  plateTexture: null,
+  setPlateTexture: (plateTexture) => set({ plateTexture }),
 }));
 
