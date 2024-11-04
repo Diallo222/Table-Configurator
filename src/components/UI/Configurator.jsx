@@ -53,7 +53,7 @@ const Configurator = () => {
                 value={index}
                 checked={legs === index}
                 onChange={() => setLegs(index)}
-                className="radio-input cursor-pointer border-none checked:bg-black checked:border-black"
+                className="radio-input cursor-pointer focus:ring-0 border-none checked:bg-black checked:border-black"
               />
               <span className={styles.options}>{style}</span>
             </label>

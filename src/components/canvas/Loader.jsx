@@ -1,5 +1,6 @@
 import { useProgress } from "@react-three/drei";
 import { useEffect } from "react";
+import { motion } from "framer-motion";
 
 export const Loader = (props) => {
   const { started, setStarted } = props;
@@ -14,31 +15,19 @@ export const Loader = (props) => {
   }, [progress, total, loaded, item]);
 
   return (
-    <div
-      className={`fixed top-0 left-0 w-full h-full z-50 transition-opacity duration-1000 pointer-events-none
-  flex flex-col items-center justify-center bg-zinc-200
-  ${started ? "opacity-0" : "opacity-100"}`}
+    <motion.div
+      className="fixed top-0 left-0 w-full h-full flex items-center justify-center bg-gray-200"
+      initial={{ opacity: 1 }}
+      animate={{ opacity: started ? 0 : 1 }}
+      transition={{ duration: 1 }}
     >
-      <div className="text-xl md:text-7xl  text-black relative">
-        <div
-          className="absolute left-0 top-0  overflow-hidden truncate text-clip transition-all duration-500"
-          style={{
-            opacity: `${progress}%`,
-          }}
-        >
-          {"loading ..."}
-        </div>
-        <div className=" opacity-0">{"loading ..."}</div>
+      <div className="flex flex-col items-center">
+        <div className="w-16 h-16 border-4 border-gray-300 border-t-black rounded-full animate-spin"></div>
+        <p className="text-2xl md:text-7xl text-black mt-4">Loading</p>
+        <p className="text-lg md:text-3xl text-black mt-2">
+          {Math.floor(progress)}%
+        </p>
       </div>
-      <p
-        className="text-black text-lg md:text-3xl text-center  mt-10"
-        style={{
-          opacity: progress > 2 ? 1 : 0,
-        }}
-      >
-        {Math.floor(progress)}
-        {"%"}
-      </p>
-    </div>
+    </motion.div>
   );
 };
