@@ -4,7 +4,7 @@
 
 ##
 
-![ConfCover](https://github.com/user-attachments/assets/e88a1ddc-6eb4-4419-8a48-19ab3dfcc5cd)
+[![ConfCover](https://github.com/user-attachments/assets/e88a1ddc-6eb4-4419-8a48-19ab3dfcc5cd)](https://table-configurator-navy.vercel.app/)
 
 ## Getting Started
 
@@ -42,6 +42,8 @@ After that run the app! by running
 [![Vite](https://img.shields.io/badge/Vite-FFFFFF?style=for-the-badge&logo=vite&logoColor=yellow)](https://vitejs.dev/)
 
 [![Three](https://img.shields.io/badge/Three.js-000000?style=for-the-badge&logo=three.js&logoColor=white)](https://threejs.org/)
+
+[![React Three Fiber ](https://img.shields.io/badge/Three.js-000000?style=for-the-badge&logo=three.js&logoColor=white)](https://r3f.docs.pmnd.rs)
 
 **Modelling:**
 
