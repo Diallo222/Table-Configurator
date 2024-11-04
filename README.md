@@ -43,7 +43,7 @@ After that run the app! by running
 
 [![Three](https://img.shields.io/badge/Three.js-000000?style=for-the-badge&logo=three.js&logoColor=white)](https://threejs.org/)
 
-[![React Three Fiber ](https://img.shields.io/badge/Three.js-000000?style=for-the-badge&logo=three.js&logoColor=white)](https://r3f.docs.pmnd.rs)
+[![React Three Fiber](https://img.shields.io/badge/React-Three-Fiber-000000?style=for-the-badge&logo=three.js&logoColor=white)](https://r3f.docs.pmnd.rs)
 
 **Modelling:**
 
