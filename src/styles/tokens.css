@@ -1,0 +1,79 @@
+/* ÉTABLI design tokens — see CONCEPT.md §3 */
+:root {
+  /* palette (day) */
+  --paper: #eeebe4;
+  --paper-2: #e4e0d6;
+  --paper-3: #d9d4c7;
+  --ink: #161614;
+  --ink-2: #55534c;
+  --ink-3: #8a877e;
+  --rule: rgb(22 22 20 / 0.14);
+  --rule-strong: rgb(22 22 20 / 0.32);
+  --pencil: #ff4a1c;
+  --grid: rgb(22 22 20 / 0.07);
+
+  /* type */
+  --font-display: "Instrument Serif", "Times New Roman", serif;
+  --font-ui: "Geist Variable", "Helvetica Neue", Arial, sans-serif;
+  --font-mono: "Geist Mono Variable", ui-monospace, Menlo, monospace;
+
+  --fs-mono: 11px;
+  --fs-ui: 14px;
+  --fs-body: 17px;
+  --fs-h3: clamp(28px, 3vw, 44px);
+  --fs-h2: clamp(44px, 6.4vw, 112px);
+  --fs-h1: clamp(64px, 13.5vw, 260px);
+
+  /* space (8px base) */
+  --s1: 4px;
+  --s2: 8px;
+  --s3: 12px;
+  --s4: 16px;
+  --s5: 24px;
+  --s6: 32px;
+  --s7: 48px;
+  --s8: 64px;
+  --s9: 96px;
+  --gutter: clamp(16px, 2.4vw, 36px);
+  --ruler: 22px;
+
+  /* motion */
+  --ease-draw: cubic-bezier(0.45, 0, 0.55, 1);
+  --ease-fill: cubic-bezier(0.7, 0, 0.2, 1);
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+  --dur-micro: 0.25s;
+  --dur-ui: 0.6s;
+
+  /* layers */
+  --z-lens: 0;
+  --z-canvas: 1;
+  --z-page: 2;
+  --z-chrome: 10;
+  --z-sheet: 20;
+  --z-curtain: 90;
+  --z-loader: 95;
+  --z-cursor: 100;
+
+  color-scheme: light;
+}
+
+:root[data-theme="night"] {
+  --paper: #12120f;
+  --paper-2: #1c1c18;
+  --paper-3: #2a2a25;
+  --ink: #eeebe4;
+  --ink-2: #a9a69c;
+  --ink-3: #6f6d65;
+  --rule: rgb(238 235 228 / 0.12);
+  --rule-strong: rgb(238 235 228 / 0.3);
+  --pencil: #ff5a2e;
+  --grid: rgb(238 235 228 / 0.06);
+  color-scheme: dark;
+}
+
+@media (max-width: 760px) {
+  :root {
+    --ruler: 0px;
+    --fs-body: 16px;
+  }
+}
