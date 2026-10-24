@@ -1,5 +1,6 @@
 import { lazy, Suspense, useEffect, useRef } from "react";
 import { Routes, Route, useLocation, useNavigate } from "react-router-dom";
+import { Analytics } from "@vercel/analytics/react";
 import { initScroll } from "../core/scroll";
 import { startClock } from "../core/clock";
 import { bindNavigate } from "../core/transitions";
@@ -64,6 +65,7 @@ export default function App() {
       <Loader />
       <Cursor />
       <Announcer />
+      <Analytics />
     </div>
   );
 }
