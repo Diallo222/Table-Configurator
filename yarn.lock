@@ -182,24 +182,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@fontsource-variable/geist-mono@npm:^5.3.0":
+"@fontsource-variable/archivo@npm:^5.3.0":
   version: 5.3.0
-  resolution: "@fontsource-variable/geist-mono@npm:5.3.0"
-  checksum: 10c0/21a4097b3ccce08cbc181199f68a9193adc17d997ef8d883eab7565c6d79a82b2f8d7656f32f97b66f1f0b4ebba78a1a822c6318d55e0c5f572d74683ab036ee
-  languageName: node
-  linkType: hard
-
-"@fontsource-variable/geist@npm:^5.3.0":
-  version: 5.3.0
-  resolution: "@fontsource-variable/geist@npm:5.3.0"
-  checksum: 10c0/6b1d1d249643377c885d040769bf0964f242e8d03c4470535329ad4eed3d30a8134fea0d45c0b99b8069924a1f506a3bcb5b8d9cea77b7b5234dc7dd57371842
-  languageName: node
-  linkType: hard
-
-"@fontsource/instrument-serif@npm:^5.3.0":
-  version: 5.3.0
-  resolution: "@fontsource/instrument-serif@npm:5.3.0"
-  checksum: 10c0/4b04757b67e17b00b631d6ecc9897fbe3129bff2a4320d222827be54f5685565b055ed7b656885da32c3cc05827b080513705d92aa746c666b5a785b3c9f30a2
+  resolution: "@fontsource-variable/archivo@npm:5.3.0"
+  checksum: 10c0/3af011f6ee09716625424c518bc9c4da93aa0989fc09904398451a125ef738d82af7d74569e195082dac6fc1df1c3a4aeba5d6d85f1a652245d001ed3aaf0c8c
   languageName: node
   linkType: hard
 
@@ -2663,9 +2649,7 @@ __metadata:
   resolution: "etabli@workspace:."
   dependencies:
     "@eslint/js": "npm:^9.0.0"
-    "@fontsource-variable/geist": "npm:^5.3.0"
-    "@fontsource-variable/geist-mono": "npm:^5.3.0"
-    "@fontsource/instrument-serif": "npm:^5.3.0"
+    "@fontsource-variable/archivo": "npm:^5.3.0"
     "@gltf-transform/core": "npm:^4.5.1"
     "@gltf-transform/extensions": "npm:^4.5.1"
     "@gltf-transform/functions": "npm:^4.5.1"

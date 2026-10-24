@@ -7,7 +7,7 @@
 html {
   background: var(--paper);
   color: var(--ink);
-  font-family: var(--font-ui);
+  font-family: var(--font);
   font-size: var(--fs-ui);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -41,12 +41,12 @@ body {
 }
 
 ::selection {
-  background: var(--pencil);
-  color: var(--paper);
+  background: var(--accent);
+  color: var(--accent-ink);
 }
 
 :focus-visible {
-  outline: 2px solid var(--pencil);
+  outline: 2px solid var(--ink);
   outline-offset: 3px;
 }
 
@@ -63,17 +63,19 @@ a {
   text-decoration: none;
 }
 
-/* ---------- type ---------- */
+/* ---------- type ----------
+   Display: Archivo extra-condensed heavy capitals (workshop stencil / timber stamp).
+   Data: semi-condensed tabular figures for every number, measurement and price. */
 .t-display {
-  font-family: var(--font-display);
-  font-weight: 400;
-  line-height: 0.86;
-  letter-spacing: -0.035em;
+  font-family: var(--font);
+  font-weight: 800;
+  font-stretch: var(--w-display);
+  text-transform: uppercase;
+  line-height: 0.84;
+  letter-spacing: -0.01em;
 }
-.t-display em,
-.t-italic {
-  font-style: italic;
-  letter-spacing: -0.02em;
+.t-display em {
+  font-style: normal;
 }
 .t-h1 {
   font-size: var(--fs-h1);
@@ -83,21 +85,22 @@ a {
 }
 .t-h3 {
   font-size: var(--fs-h3);
-  line-height: 1;
+  line-height: 0.9;
 }
-.t-mono {
-  font-family: var(--font-mono);
-  font-size: var(--fs-mono);
-  text-transform: uppercase;
-  letter-spacing: 0.04em;
+.t-data {
+  font-family: var(--font);
+  font-size: var(--fs-data);
+  font-stretch: var(--w-data);
+  font-weight: 500;
   font-variant-numeric: tabular-nums;
+  letter-spacing: 0.01em;
   line-height: 1.35;
 }
 .t-body {
   font-size: var(--fs-body);
   line-height: 1.45;
-  letter-spacing: -0.01em;
-  max-width: 34ch;
+  letter-spacing: -0.005em;
+  max-width: 36ch;
 }
 .t-dim {
   color: var(--ink-2);
@@ -105,8 +108,13 @@ a {
 .t-faint {
   color: var(--ink-3);
 }
-.t-pencil {
-  color: var(--pencil);
+/* a strip of measuring tape: yellow fill, ink on top */
+.t-accent {
+  background: var(--accent);
+  color: var(--accent-ink);
+  padding: 0.05em 0.3em;
+  -webkit-box-decoration-break: clone;
+  box-decoration-break: clone;
 }
 .tabular {
   font-variant-numeric: tabular-nums;
