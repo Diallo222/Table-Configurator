@@ -29,7 +29,7 @@ function specs(c) {
     num
       ? ["Range", `${num.label} ${num.min}–${num.max}${num.unit === "×" ? "" : ` ${num.unit}`}`]
       : ["Variants", Object.values(c.params).filter((p) => p.type === "enum").map((p) => p.options.map((o) => o.label).join(" / ")).join(", ")],
-    ["Materials", String(mats.size).padStart(2, "0")],
+    ["Materials", String(mats.size)],
     ["Lead time", c.lead],
   ];
 }
@@ -130,7 +130,7 @@ export default function Index() {
   const flip = useRef(null);
   const [view, setView] = useState("studio");
   const [cat, setCat] = useState("all");
-  usePage(ref, { index: "02", label: "INDEX", title: "Collection 01 — ÉTABLI" });
+  usePage(ref, { index: "02", label: "INDEX", title: "Objects | ÉTABLI" });
 
   useLayoutEffect(() => startIndex({ media, view: viewRef, hover }), []);
 
@@ -167,29 +167,26 @@ export default function Index() {
     <div ref={ref} className="page index pad">
       <header className="index__head">
         <div className="index__reveal">
-          <p className="kicker t-mono">
-            <span>§ Index — Collection 01</span>
-          </p>
           <h1 className="t-display t-h2">
-            The objects
-            <sup>
-              (<Odometer value={String(visible.length).padStart(2, "0")} />)
-            </sup>
+            Objects
+            <span className="index__count t-data t-accent" aria-label={`${visible.length} shown`}>
+              <Odometer value={String(visible.length)} />
+            </span>
           </h1>
         </div>
         <div className="index__tools index__reveal">
-          <div className="seg seg--pill filters" role="radiogroup" aria-label="Category">
+          <div className="seg seg--bar filters" role="radiogroup" aria-label="Category">
             {CATEGORIES.map((c) => {
               const n = c.id === "all" ? CATALOG.length : CATALOG.filter((x) => x.category === c.id).length;
               return (
                 <button key={c.id} role="radio" aria-checked={cat === c.id} className={`seg__opt ${cat === c.id ? "is-active" : ""}`} onClick={() => cat !== c.id && change(() => setCat(c.id))} data-cursor="link">
                   {c.label}
-                  <sup>{n}</sup>
+                  <small>{n}</small>
                 </button>
               );
             })}
           </div>
-          <div className="seg seg--pill" role="radiogroup" aria-label="View">
+          <div className="seg seg--bar" role="radiogroup" aria-label="View">
             {[
               ["studio", "Studio"],
               ["plan", "Plan"],
@@ -219,16 +216,16 @@ export default function Index() {
                 onBlur={() => hover.current === c.slug && (hover.current = null)}
                 aria-label={`${c.name}, ${c.type}, from ${formatPrice(price(c.slug, defaults(c.slug)))}`}
               >
-                <div className="card__top t-mono">
-                  <span className="card__no">N°{c.no}</span>
+                <div className="card__top t-data">
                   <span className="card__type t-dim">{c.type}</span>
+                  <span className="card__lead t-faint">{c.lead}</span>
                 </div>
                 <div ref={(el) => (media.current[c.slug] = el)} className="card__media" data-flip-id={`media-${c.slug}`} />
                 <div className="card__bottom">
                   <h2 className="card__name t-display" data-flip-id={`name-${c.slug}`}>
                     {c.name}
                   </h2>
-                  <dl className="card__specs t-mono">
+                  <dl className="card__specs t-data">
                     {specs(c).map(([k, v]) => (
                       <div key={k}>
                         <dt>{k}</dt>
@@ -236,11 +233,8 @@ export default function Index() {
                       </div>
                     ))}
                   </dl>
-                  <span className="card__price t-mono" data-flip-id={`price-${c.slug}`}>
-                    From {formatPrice(price(c.slug, defaults(c.slug)))}
-                  </span>
-                  <span className="card__go t-mono t-pencil" aria-hidden="true">
-                    Open →
+                  <span className="card__price t-data" data-flip-id={`price-${c.slug}`}>
+                    from {formatPrice(price(c.slug, defaults(c.slug)))}
                   </span>
                 </div>
               </TLink>

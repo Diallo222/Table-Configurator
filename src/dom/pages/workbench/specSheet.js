@@ -8,12 +8,16 @@ export function downloadSpecSheet({ spec, cfg, price, image }) {
   c.width = W;
   c.height = H;
   const g = c.getContext("2d");
-  const ink = "#161614", dim = "#8a877e", pencil = "#ff4a1c", paper = "#eeebe4";
+  const ink = "#111214", dim = "#6b6e72", tape = "#f4c20d", paper = "#e7e8e4";
+  const font = (size, weight = 500, stretch = "semi-condensed") => {
+    g.fontStretch = stretch;
+    g.font = `${weight} ${size}px 'Archivo Variable', Arial, sans-serif`;
+  };
   g.fillStyle = paper;
   g.fillRect(0, 0, W, H);
 
   // drafting grid
-  g.strokeStyle = "rgba(22,22,20,0.06)";
+  g.strokeStyle = "rgba(17,18,20,0.06)";
   g.lineWidth = 1;
   for (let x = M; x <= W - M; x += 24) {
     g.beginPath();
@@ -31,35 +35,35 @@ export function downloadSpecSheet({ spec, cfg, price, image }) {
   g.lineWidth = 2;
   g.strokeRect(M, M, W - 2 * M, H - 2 * M);
 
-  // header
+  // header: name on a strip of tape
+  g.fillStyle = tape;
+  g.fillRect(M, M, W - 2 * M, 170);
   g.fillStyle = ink;
-  g.font = "italic 132px 'Instrument Serif', serif";
-  g.fillText(spec.name, M + 40, M + 160);
-  g.font = "500 20px 'Geist Mono Variable', monospace";
-  g.fillStyle = dim;
-  g.fillText(`N°${spec.no} — ${spec.type.toUpperCase()}`, M + 44, M + 60);
-  g.fillStyle = pencil;
-  g.fillText("ÉTABLI — DRAWN TO MEASURE", W - M - 360, M + 60);
+  font(150, 800, "extra-condensed");
+  g.fillText(spec.name.toUpperCase(), M + 36, M + 148);
+  font(22, 600);
+  g.textAlign = "right";
+  g.fillText(spec.type, W - M - 36, M + 56);
+  g.fillText("ÉTABLI, Lyon", W - M - 36, M + 88);
+  g.textAlign = "left";
 
   // render
   const iw = W - 2 * M - 80;
   const ih = (iw * image.height) / image.width;
   g.drawImage(image, M + 40, M + 210, iw, Math.min(ih, 860));
+  font(16);
 
   // configuration table
   let y = M + 210 + Math.min(ih, 860) + 70;
-  g.font = "500 18px 'Geist Mono Variable', monospace";
-  let n = 1;
+  font(20);
   for (const [k, p] of Object.entries(spec.params)) {
     const v = cfg[k];
     const val = p.type === "num" ? `${v} ${p.unit}` : p.type === "material" ? MATERIALS[v].name : p.options.find((o) => o.id === v)?.label;
-    g.fillStyle = pencil;
-    g.fillText(String(n++).padStart(2, "0"), M + 40, y);
     g.fillStyle = dim;
-    g.fillText(p.label.toUpperCase(), M + 100, y);
+    g.fillText(p.label, M + 40, y);
     g.fillStyle = ink;
-    g.fillText(String(val).toUpperCase(), M + 460, y);
-    g.strokeStyle = "rgba(22,22,20,0.2)";
+    g.fillText(String(val), M + 420, y);
+    g.strokeStyle = "rgba(17,18,20,0.2)";
     g.beginPath();
     g.moveTo(M + 40, y + 18);
     g.lineTo(W - M - 40, y + 18);
@@ -78,22 +82,22 @@ export function downloadSpecSheet({ spec, cfg, price, image }) {
   g.moveTo(bx + 260, by);
   g.lineTo(bx + 260, by + 200);
   g.stroke();
-  g.font = "500 15px 'Geist Mono Variable', monospace";
+  font(16);
   const date = new Date().toISOString().slice(0, 10);
   const cells = [
-    ["DRAWN BY", "YOU"],
-    ["DATE", date],
-    ["PRICE", formatPrice(price)],
-    ["SCALE", "NTS"],
+    ["Drawn by", "You"],
+    ["Date", date],
+    ["Price", formatPrice(price)],
+    ["Scale", "Not to scale"],
   ];
   cells.forEach(([a, b], i) => {
     const cx = bx + (i % 2) * 260 + 20, cy = by + Math.floor(i / 2) * 100 + 34;
     g.fillStyle = dim;
     g.fillText(a, cx, cy);
     g.fillStyle = ink;
-    g.font = "500 24px 'Geist Mono Variable', monospace";
+    font(26, 600);
     g.fillText(b, cx, cy + 40);
-    g.font = "500 15px 'Geist Mono Variable', monospace";
+    font(16);
   });
 
   const a = document.createElement("a");

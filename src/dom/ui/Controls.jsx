@@ -6,7 +6,7 @@ import { LineIcon } from "./LineIcon";
 import { Swatch } from "./Swatch";
 import { Odometer } from "./Odometer";
 
-const fmt = (v, p) => (p.int ? String(Math.round(v)) : String(Math.round(v)).padStart(4, "0"));
+const fmt = (v) => String(Math.round(v));
 
 function NumControl({ slug, k, p, value }) {
   const set = (v) => {
@@ -19,8 +19,8 @@ function NumControl({ slug, k, p, value }) {
   return (
     <div className="ctl ctl--num">
       <div className="ctl__value">
-        <Odometer value={fmt(value, p)} className="t-display" />
-        <span className="t-mono t-dim">{p.unit}</span>
+        <Odometer value={fmt(value)} className="t-display" />
+        <span className="t-data t-dim">{p.unit}</span>
       </div>
       <div className="range" style={{ "--p": `${pct}%` }}>
         <button className="range__step" onClick={() => set(value - p.step * (p.int ? 1 : 10))} aria-label={`Decrease ${p.label}`} data-cursor="link">
@@ -45,7 +45,7 @@ function NumControl({ slug, k, p, value }) {
           +
         </button>
       </div>
-      <div className="ctl__scale t-mono t-faint">
+      <div className="ctl__scale t-data t-faint">
         <span>{p.min}</span>
         <span>{p.max}</span>
       </div>
@@ -96,7 +96,7 @@ function MaterialControl({ slug, k, p, value }) {
           />
         ))}
       </div>
-      <p className="ctl__note t-mono">
+      <p className="ctl__note t-data">
         <span>{MATERIALS[value].name}</span>
         <span className="t-faint">{MATERIALS[value].card.note}</span>
       </p>
@@ -107,10 +107,10 @@ function MaterialControl({ slug, k, p, value }) {
 export function Controls({ slug, spec, cfg }) {
   return (
     <ol className="controls">
-      {Object.entries(spec.params).map(([k, p], i) => (
+      {Object.entries(spec.params).map(([k, p]) => (
         <li key={k} className="controls__row">
-          <h3 className="controls__label t-mono">
-            <span className="t-pencil">{String(i + 1).padStart(2, "0")}</span> {p.label}
+          <h3 className="controls__label t-data">
+            {p.label}
           </h3>
           {p.type === "num" && <NumControl slug={slug} k={k} p={p} value={cfg[k]} />}
           {(p.type === "enum" || p.type === "finish") && <EnumControl slug={slug} k={k} p={p} value={cfg[k]} />}

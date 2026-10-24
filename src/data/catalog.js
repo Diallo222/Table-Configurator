@@ -2,7 +2,7 @@
 
 const WOODS = ["oak", "ash", "walnut", "black-oak"];
 const STONES = ["travertine", "carrara", "terrazzo"];
-const COATS = ["graphite", "bone", "vermilion"];
+const COATS = ["graphite", "bone", "signal", "vermilion"];
 const METALS = ["steel", "brass"];
 const TEXTILES = ["boucle", "linen-sand", "linen-sage", "velvet-rust", "cognac"];
 
@@ -91,7 +91,7 @@ export const CATALOG = [
         ],
         default: "cone",
       },
-      body: { type: "material", slot: "body", label: "Body", options: [...COATS, ...METALS], default: "vermilion" },
+      body: { type: "material", slot: "body", label: "Body", options: [...COATS, ...METALS], default: "signal" },
       finish: finish(["body"]),
     },
     pricing: { base: 420, variants: { dome: 40 }, materials: { brass: 1.35, steel: 1.15 } },
@@ -141,7 +141,7 @@ export const CATALOG = [
         ],
         default: "backed",
       },
-      body: { type: "material", slot: "body", label: "Body", options: [...WOODS, "bone", "graphite", "vermilion"], default: "ash" },
+      body: { type: "material", slot: "body", label: "Body", options: [...WOODS, "bone", "graphite", "signal", "vermilion"], default: "ash" },
       finish: finish(["body"]),
     },
     pricing: { base: 260, perUnit: { cells: 165 }, variants: { backed: 0 } },

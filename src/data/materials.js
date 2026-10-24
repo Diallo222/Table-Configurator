@@ -151,11 +151,18 @@ export const MATERIALS = {
     card: { origin: "RAL 9001", note: "Powder-coated steel", density: "Fine texture" },
   },
   vermilion: {
-    name: "Vermilion",
+    name: "Oxide red",
     kind: "coat",
-    color: "#e2461d",
-    rough: 0.42,
-    card: { origin: "RAL 2002", note: "Powder-coated steel", density: "Fine texture" },
+    color: "#8f2a1e",
+    rough: 0.45,
+    card: { origin: "RAL 3009", note: "Powder-coated steel", density: "Fine texture" },
+  },
+  signal: {
+    name: "Signal yellow",
+    kind: "coat",
+    color: "#e9b40c",
+    rough: 0.4,
+    card: { origin: "RAL 1003", note: "Powder-coated steel", density: "Fine texture" },
   },
   steel: {
     name: "Brushed steel",

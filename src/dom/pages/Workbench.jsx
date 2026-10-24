@@ -98,7 +98,7 @@ function Price({ value }) {
   return (
     <div className="bench__price">
       <Odometer value={formatPrice(value)} className="t-display" />
-      <span ref={ghost} className="bench__delta t-mono t-pencil" aria-hidden="true" />
+      <span ref={ghost} className="bench__delta t-data t-accent" aria-hidden="true" />
     </div>
   );
 }
@@ -120,7 +120,7 @@ function Bench({ slug, spec }) {
   const [toast, setToast] = useState("");
   const total = price(slug, cfg);
 
-  usePage(ref, { index: spec.no, label: spec.name.toUpperCase(), lens: 140, title: `${spec.name}, ${spec.type.toLowerCase()} — ÉTABLI` });
+  usePage(ref, { index: spec.no, label: spec.name.toUpperCase(), lens: 140, title: `${spec.name} ${spec.type.toLowerCase()}, made to measure | ÉTABLI` });
 
   // URL → config on arrival
   useLayoutEffect(() => {
@@ -198,7 +198,7 @@ function Bench({ slug, spec }) {
     const thumb = canvas.toDataURL("image/jpeg", 0.82);
     const summary = Object.entries(spec.params)
       .map(([k, p]) => (p.type === "num" ? `${p.label} ${cfg[k]}${p.unit === "mm" ? "" : p.unit}` : p.type === "material" ? MATERIALS[cfg[k]].name : p.options.find((o) => o.id === cfg[k])?.label))
-      .join(" · ");
+      .join(", ");
     const no = useCart.getState().add({ slug, name: spec.name, type: spec.type, config: { ...cfg }, price: total, thumb, summary });
     // the snapshot flies into the header counter
     const target = document.querySelector(".nav-count")?.getBoundingClientRect();
@@ -222,7 +222,7 @@ function Bench({ slug, spec }) {
         ease: "expo.inOut",
       });
     useUI.getState().say(`${spec.name} added to your commission, reference ${no}`);
-    flash(`Added — ticket N° ${no}`);
+    flash(`Added to your commission (order ${no})`);
   };
 
   const share = async () => {
@@ -230,7 +230,7 @@ function Bench({ slug, spec }) {
     try {
       if (navigator.share && window.matchMedia("(pointer: coarse)").matches) await navigator.share({ title: `ÉTABLI ${spec.name}`, url });
       else await navigator.clipboard.writeText(url);
-      flash("Link copied — this exact configuration");
+      flash("Link copied. It opens this exact configuration.");
     } catch {
       flash(url);
     }
@@ -241,7 +241,7 @@ function Bench({ slug, spec }) {
     sound("scratch", 0.6);
     const canvas = await snapshot({ width: 1400, crop: 0.9 });
     downloadSpecSheet({ spec, cfg, price: total, image: canvas });
-    flash("Spec sheet drawn");
+    flash("Spec sheet downloaded");
   };
 
   return (
@@ -249,17 +249,17 @@ function Bench({ slug, spec }) {
       <div ref={stageRef} className="bench__stage" aria-hidden="true" />
 
       <aside className="bench__info">
-        <TLink to="/objects" type="flight" className="back-link t-mono bench__reveal" data-cursor="link">
-          ← Index
+        <TLink to="/objects" type="flight" className="back-link t-data bench__reveal" data-cursor="link">
+          All objects
         </TLink>
-        <p className="t-mono t-dim bench__reveal">
-          N°{spec.no} — {spec.type}
+        <p className="t-data t-dim bench__reveal">
+          {spec.type}
         </p>
         <h1 className="t-display bench__name bench__reveal">{spec.name}</h1>
         <p className="t-body t-dim bench__reveal">{spec.story}</p>
         <div className="bench__reveal">
           <Price value={total} />
-          <dl className="facts t-mono">
+          <dl className="facts t-data">
             <div>
               <dt>Lead time</dt>
               <dd>{spec.lead}</dd>
@@ -273,23 +273,23 @@ function Bench({ slug, spec }) {
         <div className="bench__actions bench__reveal">
           <button className="btn btn--primary" onClick={addToCommission} data-cursor="link">
             <span>Add to commission</span>
-            <span aria-hidden="true">→</span>
+            <span className="btn__key">{formatPrice(total)}</span>
           </button>
           <div className="bench__secondary">
             <button className="btn btn--ghost" onClick={sheet} data-cursor="link">
-              Spec sheet ↓
+              Spec sheet
             </button>
             <button className="btn btn--ghost" onClick={share} data-cursor="link">
-              Share ⧉
+              Copy link
             </button>
           </div>
         </div>
       </aside>
 
       <section className="bench__panel bench__reveal" aria-label={`${spec.name} configuration`}>
-        <header className="bench__panel-head t-mono">
+        <header className="bench__panel-head t-data">
           <span>Specification</span>
-          <button className="t-mono link-btn" onClick={() => useConfig.getState().reset(slug)} data-cursor="link">
+          <button className="t-data link-btn" onClick={() => useConfig.getState().reset(slug)} data-cursor="link">
             Reset
           </button>
         </header>
@@ -297,7 +297,7 @@ function Bench({ slug, spec }) {
       </section>
 
       <div className="bench__modes bench__reveal">
-        <div className="seg seg--pill" role="radiogroup" aria-label="View">
+        <div className="seg seg--bar" role="radiogroup" aria-label="View">
           {["studio", "plan"].map((m) => (
             <button key={m} role="radio" aria-checked={mode === m} className={`seg__opt ${mode === m ? "is-active" : ""}`} onClick={() => setMode(m)} data-cursor="link">
               {m === "studio" ? "Studio" : "Plan"}
@@ -305,7 +305,7 @@ function Bench({ slug, spec }) {
           ))}
         </div>
         {mode === "plan" ? (
-          <div className="seg seg--pill" role="radiogroup" aria-label="Elevation">
+          <div className="seg seg--bar" role="radiogroup" aria-label="Elevation">
             {VIEWS.map((v, k) => (
               <button
                 key={v}
@@ -319,28 +319,28 @@ function Bench({ slug, spec }) {
                 }}
                 data-cursor="link"
               >
-                {v}
+                {v[0].toUpperCase() + v.slice(1)}
               </button>
             ))}
           </div>
         ) : (
-          <p className="bench__hint t-mono t-faint">Drag to rotate · Hold to see the drawing{getEntity(slug).out.dims.length ? " · Pull the red handles" : ""}</p>
+          <p className="bench__hint t-data t-faint">Drag to rotate. Hold to see the drawing.{getEntity(slug).out.dims.length ? " Pull the yellow handles to resize." : ""}</p>
         )}
       </div>
 
-      <nav className="bench__rail bench__reveal t-mono" aria-label="Other objects">
+      <nav className="bench__rail bench__reveal t-data" aria-label="Other objects">
         <TLink to={`/objects/${prev.slug}`} type="flight" data-cursor="link">
-          ‹ {prev.no} {prev.name}
+          ← {prev.name}
         </TLink>
         <span className="t-faint">
-          {spec.no} / 06
+          {i + 1} / {CATALOG.length}
         </span>
         <TLink to={`/objects/${next.slug}`} type="flight" data-cursor="link">
-          {next.no} {next.name} ›
+          {next.name} →
         </TLink>
       </nav>
 
-      <p className={`toast t-mono ${toast ? "is-on" : ""}`} role="status">
+      <p className={`toast t-data ${toast ? "is-on" : ""}`} role="status">
         {toast}
       </p>
     </div>

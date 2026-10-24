@@ -12,7 +12,7 @@ import { claim } from "./scene";
 import { TLink } from "../ui/TLink";
 import { Odometer } from "../ui/Odometer";
 
-const today = () => new Date().toLocaleDateString("en-GB", { day: "2-digit", month: "short", year: "numeric" }).toUpperCase();
+const today = () => new Date().toLocaleDateString("en-GB", { day: "numeric", month: "short", year: "numeric" });
 
 function Item({ item }) {
   const ref = useRef(null);
@@ -33,12 +33,12 @@ function Item({ item }) {
       <div className="item__body">
         <p className="item__title">
           <span className="t-display">{item.name}</span>
-          <span className="t-mono t-dim">
-            N°{item.no} — {item.type}
+          <span className="t-data t-dim">
+            {item.type}, order {item.no}
           </span>
         </p>
-        <p className="item__summary t-mono t-dim">{item.summary}</p>
-        <div className="item__actions t-mono">
+        <p className="item__summary t-data t-dim">{item.summary}</p>
+        <div className="item__actions t-data">
           <TLink to={q} className="link-btn" data-cursor="link">
             Edit
           </TLink>
@@ -49,7 +49,7 @@ function Item({ item }) {
       </div>
       <div className="item__right">
         <Odometer value={formatPrice(item.price * item.qty)} className="item__price t-display" />
-        <div className="qty t-mono" role="group" aria-label={`Quantity of ${item.name}`}>
+        <div className="qty t-data" role="group" aria-label={`Quantity of ${item.name}`}>
           <button onClick={() => (sound("tick", 0.3), useCart.getState().qty(item.id, item.qty - 1))} aria-label="One less" data-cursor="link">
             −
           </button>
@@ -72,7 +72,7 @@ export default function Commission() {
   const [busy, setBusy] = useState(false);
   const total = items.reduce((n, i) => n + i.price * i.qty, 0);
   const count = items.reduce((n, i) => n + i.qty, 0);
-  usePage(ref, { index: "03", label: "COMMISSION", title: "Your commission — ÉTABLI" });
+  usePage(ref, { index: "03", label: "COMMISSION", title: "Your commission | ÉTABLI" });
 
   // nothing on stage here: objects fold back into lines and leave
   useLayoutEffect(() => {
@@ -118,18 +118,15 @@ export default function Commission() {
     return (
       <div ref={ref} className="page commission pad">
         <div className="received">
-          <p className="kicker t-mono">
-            <span>Request N°{sent.no} — Received</span>
+          <p className="t-data">
+            <span className="t-accent">Request {sent.no} received</span>
           </p>
-          <h1 className="t-display t-h2">
-            Thank you{sent.name ? `, ${sent.name}` : ""}. <em>We’ll draw it.</em>
-          </h1>
+          <h1 className="t-display t-h2">Thanks{sent.name ? `, ${sent.name}` : ""}</h1>
           <p className="t-body t-dim">
-            {sent.count} object{sent.count > 1 ? "s" : ""}, {formatPrice(sent.total)}. An atelier drawing will reach {sent.email || "you"} within two working days. Nothing has been charged.
+            {sent.count} object{sent.count > 1 ? "s" : ""}, {formatPrice(sent.total)}. We will send drawings at your sizes to {sent.email || "you"} within two working days. Nothing has been charged.
           </p>
           <TLink to="/objects" className="btn btn--primary" data-cursor="link">
-            <span>Back to the collection</span>
-            <span aria-hidden="true">→</span>
+            <span>Back to the objects</span>
           </TLink>
         </div>
       </div>
@@ -145,14 +142,13 @@ export default function Commission() {
           </span>
           <header className="ticket__head">
             <div>
-              <p className="t-mono t-dim">Workshop order — {today()}</p>
+              <p className="t-data t-dim">Order sheet, {today()}</p>
               <h1 className="t-display t-h3">Your commission</h1>
             </div>
-            <p className="t-mono">
-              <span className="t-pencil">
-                <Odometer value={String(count).padStart(2, "0")} />
-              </span>{" "}
-              items
+            <p className="t-data">
+              <span className="t-accent">
+                <Odometer value={String(count)} /> {count === 1 ? "item" : "items"}
+              </span>
             </p>
           </header>
 
@@ -164,46 +160,40 @@ export default function Commission() {
                 ))}
               </ul>
               <div className="ticket__total">
-                <span className="t-mono t-dim">Total, before delivery</span>
+                <span className="t-data t-dim">Total, before delivery</span>
                 <Odometer value={formatPrice(total)} className="t-display" />
               </div>
             </>
           ) : (
             <div className="ticket__empty">
-              <p className="t-display t-h3">Nothing on the bench yet.</p>
-              <p className="t-body t-dim">Choose an object, set its measurements and add it here.</p>
+              <p className="t-display t-h3">Empty</p>
+              <p className="t-body t-dim">Configure an object and add it here.</p>
               <TLink to="/objects" className="btn btn--ghost" data-cursor="link">
-                Browse the collection →
+                Browse the objects
               </TLink>
             </div>
           )}
         </article>
 
         <aside className="request commission__reveal">
-          <p className="kicker t-mono">
-            <span>Request</span>
-          </p>
-          <h2 className="t-display t-h3">
-            Send it to <em>the atelier.</em>
-          </h2>
+          <h2 className="t-display t-h3">Send the request</h2>
           <form onSubmit={submit}>
             <label className="field">
-              <span className="t-mono t-dim">Name</span>
+              <span>Name</span>
               <input className="field__input" name="name" autoComplete="name" required placeholder="Your name" />
             </label>
             <label className="field">
-              <span className="t-mono t-dim">Email</span>
+              <span>Email</span>
               <input className="field__input" name="email" type="email" autoComplete="email" required placeholder="you@studio.com" />
             </label>
             <label className="field">
-              <span className="t-mono t-dim">Notes</span>
-              <textarea className="field__input" name="notes" placeholder="Room, stairs, a deadline…" />
+              <span>Notes</span>
+              <textarea className="field__input" name="notes" placeholder="Floor, stairs, a date you need it by" />
             </label>
             <button className="btn btn--primary" type="submit" disabled={!items.length || busy} data-cursor="link">
-              <span>Request commission</span>
-              <span aria-hidden="true">→</span>
+              <span>Send request</span>
             </button>
-            <p className="request__legal t-mono t-faint">A request, not an order. No payment is taken.</p>
+            <p className="request__legal t-data t-faint">This is a request, not an order. No payment is taken.</p>
           </form>
         </aside>
       </div>

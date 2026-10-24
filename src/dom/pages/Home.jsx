@@ -21,69 +21,65 @@ import * as THREE from "three";
 
 gsap.registerPlugin(SplitText, ScrambleTextPlugin);
 
-const MANIFESTO = ["Every object", "begins as", "a line. Then", <>it gains <em>matter.</em></>];
+const MANIFESTO = ["Every piece", "starts as", "a drawing", "you can edit."];
 
 const STEPS = [
   {
-    title: "Sketch",
-    text: "Your measurements become a drawing, checked by hand within two days.",
+    title: "Drawing",
+    text: "We redraw your piece at your sizes and send it back within two days.",
     art: (
       <>
         <rect x="40" y="18" width="180" height="16" />
         <path d="M58 34 L50 86 M202 34 L210 86" />
-        <path d="M222 10 l36 -6 M40 6 h180 M40 2 v8 M220 2 v8" className="is-pencil" />
+        <path d="M40 6 h180 M40 1 v10 M220 1 v10" className="is-dim" />
       </>
     ),
   },
   {
     title: "Joinery",
-    text: "Mortise and tenon, dry-fitted first. No metal where wood will do.",
+    text: "Mortise and tenon, dry-fitted before any glue.",
     art: (
       <>
         <path d="M150 20 h120 v56 h-120 v-18 h30 v-20 h-30 z" className="fill" />
         <g className="joint-tenon">
           <path d="M30 20 h100 v18 h30 v20 h-30 v18 h-100 z" />
         </g>
-        <path d="M150 12 v-6 M180 12 v-6 M150 9 h30" className="is-pencil" />
       </>
     ),
   },
   {
     title: "Finish",
-    text: "Oiled, waxed or lacquered in three coats, sanded between each.",
+    text: "Oil, wax or lacquer. Three coats, sanded between each.",
     art: (
       <>
         <rect x="30" y="30" width="240" height="40" />
-        <path d="M40 46 q20 -8 40 0 t40 0 t40 0 t40 0 t40 0" className="is-pencil" />
-        <path d="M40 58 q20 -8 40 0 t40 0 t40 0 t40 0 t40 0" />
+        <path d="M30 30 h120 v40 h-120 z" className="fill" />
       </>
     ),
   },
   {
-    title: "Delivered",
-    text: "Crated, carried in and placed. We take the crate back with us.",
+    title: "Delivery",
+    text: "Carried in and set down by the people who made it.",
     art: (
       <>
         <path d="M60 34 l90 -22 l90 22 v46 l-90 14 l-90 -14 z M60 34 l90 14 l90 -14 M150 48 v46" />
-        <path d="M95 26 l90 18" className="is-pencil" />
       </>
     ),
   },
 ];
 
+// numbered balloons, as on an assembly drawing
 const ANNOS = [
-  { no: "01", anchor: "top", title: "Top", text: (c) => `Solid ${MATERIALS[c.top].name.toLowerCase()}, 32 mm` },
-  { no: "02", anchor: "base", title: "Base", text: (c) => `${BY_SLUG.atlas.params.base.options.find((o) => o.id === c.base)?.label} in ${MATERIALS[c.frame].name.toLowerCase()}` },
-  { no: "03", anchor: "joint", title: "Joint", text: () => "Dry-fit, bolted M8, no glue" },
+  { no: "1", anchor: "top", title: "Top", text: (c) => `Solid ${MATERIALS[c.top].name.toLowerCase()}, 32 mm` },
+  { no: "2", anchor: "base", title: "Base", text: (c) => `${BY_SLUG.atlas.params.base.options.find((o) => o.id === c.base)?.label} legs, ${MATERIALS[c.frame].name.toLowerCase()}` },
+  { no: "3", anchor: "joint", title: "Rail", text: () => "Bolted M8, comes apart for moving" },
 ];
 
-function Headline({ className, hidden }) {
+function Headline({ className, hidden, text }) {
   const Tag = hidden ? "div" : "h1";
   return (
     <Tag className={`hero__title ${className}`} aria-hidden={hidden || undefined}>
-      <span className="t-display">
-        Drawn to <em>measure.</em>
-      </span>
+      <span className="t-display">{text}</span>
     </Tag>
   );
 }
@@ -93,26 +89,23 @@ function CollectionMeta() {
   const spec = CATALOG[i];
   return (
     <>
-      <p className="sec-tag kicker t-mono">
-        <span>§03 — Collection 01</span>
-        <span className="t-dim">
-          {spec.no} / 0{CATALOG.length}
-        </span>
-      </p>
       <div className="coll__meta">
         <div className="coll__desc">
-          <p className="t-mono t-dim">
-            N°{spec.no} — {spec.type}
-          </p>
+          <p className="label">{spec.type}</p>
           <p className="t-body">{spec.story}</p>
           <TLink to={`/objects/${spec.slug}`} type="flight" className="btn btn--ghost" data-cursor="link">
-            Configure {spec.name} →
+            Configure {spec.name}
           </TLink>
         </div>
-        <div className="coll__dots" aria-hidden="true">
-          {CATALOG.map((c, k) => (
-            <i key={c.slug} className={k === i ? "is-on" : ""} />
-          ))}
+        <div className="coll__count">
+          <span className="t-data">
+            {i + 1} / {CATALOG.length}
+          </span>
+          <div className="coll__dots" aria-hidden="true">
+            {CATALOG.map((c, k) => (
+              <i key={c.slug} className={k === i ? "is-on" : ""} />
+            ))}
+          </div>
         </div>
       </div>
       <button
@@ -140,13 +133,10 @@ function MeasureRead() {
   const seats = useHome((s) => s.seats);
   return (
     <div className="measure__read">
-      <Odometer value={String(mm).padStart(4, "0")} className="t-display" />
-      <span className="t-mono t-dim">mm — width</span>
-      <span className="measure__seats t-mono">
-        <span className="t-pencil">
-          <Odometer value={String(seats).padStart(2, "0")} />
-        </span>{" "}
-        seats
+      <Odometer value={String(mm)} className="t-display" />
+      <span className="t-data t-dim">mm wide</span>
+      <span className="measure__seats t-data t-accent">
+        Seats <Odometer value={String(seats)} />
       </span>
     </div>
   );
@@ -162,12 +152,12 @@ function MaterialTray() {
   useEffect(() => {
     if (!cardRef.current || reducedMotion) return;
     const dds = cardRef.current.querySelectorAll("dd[data-text]");
-    dds.forEach((dd) => gsap.to(dd, { duration: 0.7, scrambleText: { text: dd.dataset.text, chars: "0123456789ABCDEFX/", speed: 0.6 } }));
+    dds.forEach((dd) => gsap.to(dd, { duration: 0.6, scrambleText: { text: dd.dataset.text, chars: "0123456789", speed: 0.6 } }));
   }, [card]);
 
   const row = (k) => (
     <div className="controls__row" key={k}>
-      <h3 className="controls__label t-mono">{p[k].label}</h3>
+      <h3 className="controls__label">{p[k].label}</h3>
       <div className="swatches">
         {p[k].options.map((id) => (
           <Swatch
@@ -191,9 +181,9 @@ function MaterialTray() {
     <div className="mat__tray">
       {row("seat")}
       {row("legs")}
-      <dl ref={cardRef} className="mat__card t-mono">
+      <dl ref={cardRef} className="mat__card t-data">
         <div className="is-name">
-          <dt>Sample</dt>
+          <dt className="sr-only">Sample</dt>
           <dd>{m.name}</dd>
         </div>
         <div>
@@ -225,7 +215,9 @@ export default function Home() {
   const chairs = useRef([]);
   const theme = useUI((s) => s.theme);
   const atlasCfg = useConfig((s) => s.configs.atlas);
-  usePage(ref, { index: "01", label: "HERO", lens: 130, title: "ÉTABLI — Drawn to measure" });
+  // the headline is the table's own size, as configured
+  const [dims] = useState(() => `${atlasCfg.w}×${atlasCfg.d}`);
+  usePage(ref, { index: "01", label: "HERO", lens: 130, title: "ÉTABLI, furniture made to measure" });
 
   useLayoutEffect(() => {
     const root = ref.current;
@@ -239,25 +231,17 @@ export default function Home() {
       chairs: chairs.current,
     });
 
-    // headline: characters arrive blurred, in random order, on both type layers
+    // headline digits count up on both type layers, then settle
     const splits = [...root.querySelectorAll(".hero__title .t-display")].map((el) => new SplitText(el, { type: "chars", charsClass: "char" }));
-    const n = splits[0].chars.length;
-    const order = gsap.utils.shuffle([...Array(n).keys()]);
-    gsap.set(splits.flatMap((s) => s.chars), { autoAlpha: 0 });
+    gsap.set(splits.flatMap((s) => s.chars), { yPercent: 105 });
     const foot = root.querySelectorAll(".hero__foot > *");
     gsap.set(foot, { autoAlpha: 0, y: 14 });
 
     const stop = whenStarted((handoff) => {
       dir.startIntro(handoff);
-      const delay = handoff ? 0.9 : 0.35;
-      splits.forEach((s) =>
-        gsap.fromTo(
-          s.chars,
-          { autoAlpha: 0, filter: "blur(14px)", yPercent: 18 },
-          { autoAlpha: 1, filter: "blur(0px)", yPercent: 0, duration: 1.1, ease: "expo.out", delay: (i) => delay + order[i % n] * 0.045, clearProps: "filter" }
-        )
-      );
-      gsap.to(foot, { autoAlpha: 1, y: 0, duration: 0.9, stagger: 0.08, ease: "expo.out", delay: delay + 0.6 });
+      const delay = handoff ? 0.8 : 0.3;
+      splits.forEach((s) => gsap.to(s.chars, { yPercent: 0, duration: 0.9, ease: "expo.out", stagger: 0.05, delay }));
+      gsap.to(foot, { autoAlpha: 1, y: 0, duration: 0.8, stagger: 0.08, ease: "expo.out", delay: delay + 0.5 });
     });
 
     return () => {
@@ -282,28 +266,24 @@ export default function Home() {
 
   return (
     <div ref={ref} className="page home">
-      {/* §01 hero */}
+      {/* 1. hero: the headline is the table's measurements, the table stands in it */}
       <section ref={sec(0)} className="hero" aria-label="Introduction">
-        <Headline className="layer-back" />
-        <Headline className="hero__title--front" hidden />
+        <Headline className="layer-back" text={dims} />
+        <Headline className="hero__title--front" hidden text={dims} />
         <div className="hero__foot">
-          <p className="hero__lede t-body">Six objects, made to the millimetre in Lyon. Pick one, pull its edges, choose what it’s made of.</p>
-          <div className="scroll-hint t-mono t-faint" aria-hidden="true">
-            <i />
-            Scroll
+          <div className="hero__lede">
+            <p className="label">Atlas dining table, {atlasCfg.w} × {atlasCfg.d} mm</p>
+            <p className="t-body t-dim">Six pieces of furniture, built in Lyon to the millimetre you choose.</p>
           </div>
           <TLink to="/objects" className="btn btn--ghost" data-cursor="link">
-            Collection 01 →
+            See all six
           </TLink>
         </div>
       </section>
 
-      {/* §02 the line */}
-      <section ref={sec(1)} className="line-sec" data-sticky aria-label="The line">
+      {/* 2. exploded view */}
+      <section ref={sec(1)} className="line-sec" data-sticky aria-label="How it goes together">
         <div className="sticky">
-          <p className="sec-tag kicker t-mono">
-            <span>§02 — The line</span>
-          </p>
           <h2 className="manifesto t-display">
             {MANIFESTO.map((l, i) => (
               <span key={i} className="reveal-line" style={{ "--at": 0.06 + i * 0.08 }}>
@@ -321,31 +301,28 @@ export default function Home() {
               ))}
             </svg>
             {ANNOS.map((a) => (
-              <div key={a.no} className="anno t-mono" data-anchor={a.anchor}>
-                <span>
-                  <span className="t-pencil">{a.no}</span> {a.title}
+              <div key={a.no} className="anno" data-anchor={a.anchor}>
+                <span className="anno__no t-data">{a.no}</span>
+                <span className="anno__text">
+                  <b>{a.title}</b>
+                  <span className="t-data t-dim">{a.text(atlasCfg)}</span>
                 </span>
-                <span className="t-dim">{a.text(atlasCfg)}</span>
               </div>
             ))}
           </div>
         </div>
       </section>
 
-      {/* §03 collection */}
-      <section ref={sec(2)} className="coll-sec" data-sticky aria-label="Collection 01">
+      {/* 3. the collection on a rail */}
+      <section ref={sec(2)} className="coll-sec" data-sticky aria-label="The collection">
         <div className="sticky">
           <CollectionMeta />
         </div>
       </section>
 
-      {/* §04 measure */}
-      <section ref={sec(3)} className="measure-sec" data-sticky aria-label="Measure">
+      {/* 4. stretch the table in plan view */}
+      <section ref={sec(3)} className="measure-sec" data-sticky aria-label="Sizes">
         <div className="sticky">
-          <p className="sec-tag kicker t-mono">
-            <span>§04 — Measure</span>
-            <span className="t-dim">Plan view · 1:40</span>
-          </p>
           <div className="chairs" aria-hidden="true">
             {Array.from({ length: 10 }, (_, i) => (
               <svg key={i} ref={(el) => (chairs.current[i] = el)} className="chair" viewBox="0 0 40 40">
@@ -354,69 +331,56 @@ export default function Home() {
             ))}
           </div>
           <div className="measure__copy">
-            <h2 className="t-display t-h3">
-              We don’t do sizes. We do <em>measurements.</em>
-            </h2>
-            <p className="t-body t-dim">Keep scrolling: Atlas stretches from 900 to 2&nbsp;400&nbsp;mm, and the room around it follows.</p>
+            <h2 className="t-display t-h3">Any width from 900 to 2400&nbsp;mm</h2>
+            <p className="t-body t-dim">Keep scrolling to stretch Atlas. The seat count follows the length.</p>
           </div>
           <MeasureRead />
         </div>
       </section>
 
-      {/* §05 materials */}
-      <section ref={sec(4)} className="mat-sec pad" aria-label="Material library">
+      {/* 5. materials */}
+      <section ref={sec(4)} className="mat-sec pad" aria-label="Materials">
         <div className="mat__panel">
-          <p className="kicker t-mono">
-            <span>§05 — Material library</span>
-          </p>
-          <h2 className="t-display t-h2">
-            Drop it <em>on.</em>
-          </h2>
-          <p className="t-body t-dim">Drag a sample onto the stool. The finish soaks in from wherever it lands.</p>
+          <h2 className="t-display t-h2">Try the materials</h2>
+          <p className="t-body t-dim">Drag a sample onto the stool, or click it. The finish spreads from where it lands.</p>
           <MaterialTray />
         </div>
       </section>
 
-      {/* §06 atelier */}
-      <section ref={sec(5)} className="atelier-sec pad" aria-label="The atelier">
+      {/* 6. how it's made */}
+      <section ref={sec(5)} className="atelier-sec pad" aria-label="How it is made">
         <div className="atelier__head">
-          <p className="kicker t-mono">
-            <span>§06 — The atelier</span>
-          </p>
-          <h2 className="t-display t-h2">
-            Made slowly, <em>in Lyon.</em>
-          </h2>
-          <p className="t-body t-dim">Four steps between your measurements and your door.</p>
+          <h2 className="t-display t-h2">Six to eight weeks</h2>
+          <p className="t-body t-dim">From your measurements to your floor, in four steps.</p>
         </div>
         <ol className="steps">
           {STEPS.map((s, i) => (
             <li key={s.title} className="step">
-              <span className="t-mono t-pencil">0{i + 1}</span>
               <svg viewBox="0 0 300 96" aria-hidden="true">
                 {s.art}
               </svg>
-              <h3 className="t-display t-h3">{s.title}</h3>
+              <h3 className="step__title">
+                <span className="t-data">{i + 1}</span> {s.title}
+              </h3>
               <p className="t-body t-dim">{s.text}</p>
             </li>
           ))}
         </ol>
         <div className="atelier__switch">
           <button className="btn btn--ghost" onClick={lamp} data-cursor="link">
-            {theme === "night" ? "Lights off ○" : "Switch it on ●"}
+            {theme === "night" ? "Lamp off" : "Lamp on"}
           </button>
-          <span className="t-mono t-faint">N°03 Orbit — 2 900 K</span>
+          <span className="t-data t-faint">Orbit desk lamp, 2900 K</span>
         </div>
       </section>
 
-      {/* §07 footer */}
+      {/* 7. footer */}
       <section ref={sec(6)} className="foot-sec pad" aria-label="Footer">
         <div className="foot__cta">
-          <h2 className="t-display t-h2">
-            Start with <em>a line.</em>
-          </h2>
+          <h2 className="t-display t-h2">Choose one. Set its size.</h2>
           <TLink to="/objects" className="btn btn--primary" data-cursor="link">
-            <span>Start a commission</span>
-            <span aria-hidden="true">→</span>
+            <span>Browse the objects</span>
+            <span className="btn__key">6</span>
           </TLink>
         </div>
         <p className="wordmark t-display" aria-label="ÉTABLI">
@@ -426,11 +390,11 @@ export default function Home() {
             </span>
           ))}
         </p>
-        <div className="foot__base t-mono t-dim">
-          <span>© 2026 ÉTABLI — a fictional atelier</span>
-          <span>Textures: Poly Haven, CC0</span>
-          <button className="link-btn t-mono" onClick={backToTop} data-cursor="link">
-            Back to top ↑
+        <div className="foot__base t-data t-dim">
+          <span>ÉTABLI is a fictional furniture workshop.</span>
+          <span>Textures by Poly Haven, CC0.</span>
+          <button className="link-btn t-data" onClick={backToTop} data-cursor="link">
+            Back to top
           </button>
         </div>
       </section>
