@@ -46,6 +46,7 @@
 | D-11 | All six objects are **procedural parametric geometry** (`webgl/objects/builders.js`), no glTF | Real dimension changes without 9-slice hacks, tiny payload, one consistent line style | ✅ |
 | D-12 | Home = **pure scroll → scene-state function** per chapter, blended at chapter edges (`dom/pages/home/director.js`), CSS `--p` drives type reveals | Fully reversible, no competing scrubbed timelines writing the same camera | ✅ |
 | D-13 | Index cards map **DOM rects → world plane** on the single canvas instead of drei `<View>` | Objects really fly out of their card into the Workbench; Flip layout changes come for free | ✅ |
+| D-14 | **Art direction replaced** (CONCEPT §3): cool primer grey + graphite + tape yellow, Archivo only (condensed display, tabular data) | First pass matched the generic AI "warm editorial" look (cream, serif italics, orange accent, mono eyebrows) | ✅ |
 
 **Open questions for the owner**
 - [ ] Q-1 Brand name: keep "ÉTABLI" or rename?
@@ -600,3 +601,4 @@ export function kelvinToRgb(k) {
 
 - 2026-10-19 — Concept + plan drafted. Research: Codrops (Shader.se, Trionn, Haoqi, datamosh, VAT, Lusion), Utsubo 2026 roundup, Awwwards configurators, npm versions, Poly Haven catalog.
 - 2026-10-24 — P5 Home (7 chapters), P6 Index (studio ⇄ plan Flip, filters), P8 Commission ticket + request flow; `ui.css`/`pages.css`; shared scene helpers (`dom/pages/scene.js`); fixes: top-view camera roll, Workbench studio framing, snapshot hides handles, lint config for R3F. Verified in headless Chrome (desktop + ~500 px).
+- 2026-10-24 — Art direction pass (D-14): new tokens, Archivo, tape-measure range/curtain/favicon, copy rewritten without slogans, italics, eyebrows or em-dashes; lamp default coat signal yellow.

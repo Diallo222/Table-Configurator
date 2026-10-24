@@ -72,30 +72,35 @@ All Poly Haven assets are CC0. Materials come from the Poly Haven veneer and sto
 
 ### 3.1 Mood
 
-A drafting studio. Bone-coloured paper, graphite, one red pencil. Daylight by default, a workshop at night later on. Think Dieter Rams catalogues, Japanese joinery diagrams, Swiss technical manuals and IKEA assembly sheets, all shot like a Cartier campaign.
+The workshop floor, not the drawing office. Primer-grey sheets, graphite, and the yellow of a tape measure. Lumber stamps, stencilled crate markings, assembly-drawing balloons. Daylight by default; at night the shop goes graphite and the lamp is the light source.
+
+> **Revised 2026-10-24.** The first direction (bone paper, serif display with italic accent words, one vermilion accent, mono uppercase eyebrows, § section numbers, glass panels, grain) matched the generic "AI editorial" look almost exactly. It was replaced with a direction taken from the product itself: things that are measured.
 
 ### 3.2 Palette (design tokens)
 
 | Token | Day (default) | Night | Use |
 |---|---|---|---|
-| `--paper` | `#EEEBE4` | `#12120F` | Page background, cyclorama |
-| `--paper-2` | `#E4E0D6` | `#1C1C18` | Panels, plinth top |
-| `--ink` | `#161614` | `#EEEBE4` | Text, drawing lines |
-| `--ink-2` | `#55534C` | `#9C998F` | Secondary text |
-| `--rule` | `rgb(22 22 20 / .14)` | `rgb(238 235 228 / .12)` | Grid, rulers, hairlines |
-| `--pencil` | `#FF4A1C` | `#FF5A2E` | **Single accent** ("red pencil"): live edits, sweep line, active handles, cart count |
+| `--paper` | `#E7E8E4` | `#111214` | Page background (cool primer grey, never cream) |
+| `--paper-2` | `#DADBD6` | `#1A1C1F` | Wells, section grid, hover rows |
+| `--ink` | `#111214` | `#E7E8E4` | Text, drawing lines, borders |
+| `--ink-2` / `--ink-3` | `#4B4E52` / `#85888C` | `#A3A6A9` / `#6B6E72` | Secondary / tertiary text |
+| `--accent` | `#F4C20D` | `#FFCD1F` | **Tape yellow.** Always a fill with ink on top, never text on grey |
 
-Rule: **vermilion only means "this is live or editable right now."** It never decorates.
+Rule: **yellow means "measured or editable right now"**: range tape, dimension handles, live counts, the transition tape, the sweep line. It never decorates.
 
 ### 3.3 Typography
 
-| Role | Face | Notes |
-|---|---|---|
-| Display | **Instrument Serif** (regular + *italic*) | Huge sizes (`clamp(64px, 14vw, 280px)`). Italics for the emotional word: *"Drawn to **measure**."* |
-| UI / body | **Geist** | 14–18 px, tight leading for UI |
-| Technical | **Geist Mono** | Uppercase 11–12 px, `+0.04em`. All numbers, coordinates, dimensions, prices, labels |
+One family, **Archivo** (variable weight + width), self-hosted.
 
-All three are free (Google Fonts / Fontsource) and self-hosted.
+| Role | Setting | Notes |
+|---|---|---|
+| Display | 800 weight, 62 % width, uppercase | Stencil / timber-stamp feel. No italics, no accent word |
+| Text / UI | 400–600 weight, 100 % width | 13–17 px |
+| Data | 500 weight, 86 % width, tabular figures | Every number, dimension and price. Sentence case, no zero padding |
+
+### 3.3b Things we don't do
+
+Eyebrow labels with rules, § numbering, "N°" meta strings, 01/02 numbering on non-sequences, arrows on every link, coloured left borders, glass blur, pills, grain, crop marks, em-dash copy. Numbers appear only where they count something real (1 / 6, process steps, drawing balloons).
 
 ### 3.4 Interface chrome: "the drafting table"
 
