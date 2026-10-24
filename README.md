@@ -2,7 +2,9 @@
 
 A made-to-measure furniture configurator for a fictional workshop. Six objects, each built as live parametric geometry, so a table really gets longer when you drag its edge instead of being scaled.
 
-![Home: the Atlas table standing inside its own measurements](docs/hero.png)
+**Live demo: [table-configurator-navy.vercel.app](https://table-configurator-navy.vercel.app)**
+
+[![Home: the Atlas table standing inside its own measurements](docs/hero.png)](https://table-configurator-navy.vercel.app)
 
 ## What's in it
 
