@@ -60,7 +60,7 @@ export function Cursor() {
       <span className="cursor__h" />
       <span className="cursor__v" />
       <span className="cursor__ring" />
-      <span ref={label} className="cursor__label t-mono" />
+      <span ref={label} className="cursor__label t-data" />
     </div>
   );
 }

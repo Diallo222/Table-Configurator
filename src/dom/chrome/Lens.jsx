@@ -28,7 +28,6 @@ export function LensLayer() {
 export function LensRing() {
   const svg = useRef(null);
   const circle = useRef(null);
-  const label = useRef(null);
   useEffect(
     () =>
       onFrame(() => {
@@ -40,19 +39,14 @@ export function LensRing() {
         circle.current.setAttribute("cx", lens.x);
         circle.current.setAttribute("cy", lens.y);
         circle.current.setAttribute("r", Math.max(0, R - 0.5));
-        label.current.style.transform = `translate3d(${lens.x + R * 0.72 + 8}px, ${lens.y - R * 0.72 - 14}px, 0)`;
-        label.current.style.opacity = lens.r > 60 ? 1 : 0;
       }),
     []
   );
   return (
     <div className="lens-ring" aria-hidden="true">
       <svg ref={svg} width="100%" height="100%">
-        <circle ref={circle} fill="none" stroke="var(--pencil)" strokeWidth="1" vectorEffect="non-scaling-stroke" />
+        <circle ref={circle} fill="none" stroke="var(--ink)" strokeWidth="1.5" strokeDasharray="10 4" vectorEffect="non-scaling-stroke" />
       </svg>
-      <span ref={label} className="lens-ring__label t-mono">
-        Section · 1:20
-      </span>
     </div>
   );
 }

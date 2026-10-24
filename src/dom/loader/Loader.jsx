@@ -46,7 +46,7 @@ export function Loader() {
         duration: fast ? 0.6 : 2.1,
         ease: "power3.inOut",
         onUpdate: () => {
-          if (counter.current) counter.current.textContent = String(Math.round(value.mm)).padStart(4, "0");
+          if (counter.current) counter.current.textContent = String(Math.round(value.mm));
         },
       }, 0.2);
     if (!fast) setTimeout(() => sound("scratch", 1), 200);
@@ -86,17 +86,17 @@ export function Loader() {
           <path d="M126 98 H474" />
           <line x1="30" y1="232" x2="570" y2="232" className="loader__floor" />
           <g className="loader__dim">
-            <path d="M60 40 H540 M60 32 V48 M540 32 V48" className="is-pencil" />
+            <path d="M60 40 H540 M60 32 V48 M540 32 V48" className="is-dim" />
           </g>
           <g className="loader__dim">
-            <path d="M562 70 V232 M554 70 H570 M554 232 H570" className="is-pencil" />
+            <path d="M562 70 V232 M554 70 H570 M554 232 H570" className="is-dim" />
           </g>
         </svg>
-        <div className="loader__meta t-mono">
+        <div className="loader__meta t-data">
           <span>
-            <b ref={counter}>0000</b> mm
+            <b ref={counter}>0</b> mm
           </span>
-          <span className="t-dim">N°01 Atlas — elevation</span>
+          <span className="t-dim">Atlas, front view</span>
         </div>
         <p className="loader__word t-display">ÉTABLI</p>
       </div>

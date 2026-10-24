@@ -10,6 +10,7 @@ import { useConfig } from "../../store/useConfig";
 import { BY_SLUG } from "../../data/catalog";
 import { haptic, sound } from "../../core/audio";
 import { capture } from "../bridge";
+import { draft } from "../draft/uniforms";
 
 const A = new THREE.Vector3(), B = new THREE.Vector3(), C = new THREE.Vector3(), D = new THREE.Vector3();
 const N = new THREE.Vector3(), W = new THREE.Vector3();
@@ -31,7 +32,7 @@ function Dimension({ slug, index }) {
   const [hot, setHot] = useState(false);
 
   const { line, material } = useMemo(() => {
-    const material = new LineMaterial({ color: "#ff4a1c", linewidth: 1.25, toneMapped: false, transparent: true, depthTest: false });
+    const material = new LineMaterial({ color: "#111214", linewidth: 1.5, toneMapped: false, transparent: true, depthTest: false });
     const line = new LineSegments2(new LineSegmentsGeometry(), material);
     line.renderOrder = 10;
     line.layers.set(1);
@@ -60,6 +61,7 @@ function Dimension({ slug, index }) {
     ];
     line.geometry.setPositions(pts);
     material.resolution.set(state.size.width, state.size.height);
+    material.color.copy(draft.uInk.value);
     material.opacity = hot ? 1 : 0.85;
     handle.current.position.copy(B);
     const s = state.camera.position.distanceTo(B) * 0.012;
@@ -126,7 +128,12 @@ function Dimension({ slug, index }) {
       <group ref={handle}>
         <mesh ref={(m) => m?.layers.set(1)} renderOrder={11}>
           <sphereGeometry args={[0.55, 20, 14]} />
-          <meshBasicMaterial color="#ff4a1c" toneMapped={false} depthTest={false} transparent />
+          <meshBasicMaterial color="#f4c20d" toneMapped={false} depthTest={false} transparent />
+        </mesh>
+        {/* ink rim around the yellow handle */}
+        <mesh ref={(m) => m?.layers.set(1)} renderOrder={10} scale={1.3}>
+          <sphereGeometry args={[0.55, 20, 14]} />
+          <meshBasicMaterial color="#111214" toneMapped={false} depthTest={false} transparent side={THREE.BackSide} />
         </mesh>
         <mesh
           onPointerOver={(e) => {

@@ -9,9 +9,7 @@ export function Curtain() {
   }, []);
   return (
     <div className="curtain" aria-hidden="true">
-      <div ref={panel} className="curtain__panel">
-        <span className="curtain__mark t-display">É</span>
-      </div>
+      <div ref={panel} className="curtain__panel" />
       <span ref={line} className="curtain__line" />
     </div>
   );

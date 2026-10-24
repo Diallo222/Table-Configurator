@@ -33,7 +33,7 @@ export default function App() {
   useEffect(() => {
     const apply = (theme) => {
       document.documentElement.dataset.theme = theme;
-      document.querySelector('meta[name="theme-color"]')?.setAttribute("content", theme === "night" ? "#12120F" : "#EEEBE4");
+      document.querySelector('meta[name="theme-color"]')?.setAttribute("content", theme === "night" ? "#111214" : "#E7E8E4");
     };
     apply(useUI.getState().theme);
     return useUI.subscribe((s, p) => s.theme !== p.theme && apply(s.theme));

@@ -30,11 +30,11 @@ function Rulers() {
       g.setTransform(dpr, 0, 0, dpr, 0, 0);
       g.clearRect(0, 0, w, h);
       const ink = css.getPropertyValue("--ink-3").trim();
-      const pencil = css.getPropertyValue("--pencil").trim();
+      const markColor = css.getPropertyValue("--ink").trim();
       g.strokeStyle = ink;
       g.fillStyle = ink;
       g.lineWidth = 1;
-      g.font = "9px 'Geist Mono Variable', monospace";
+      g.font = "500 9px 'Archivo Variable', sans-serif";
       const len = horizontal ? w : h;
       const step = 10;
       const startUnit = Math.floor(offset / step) * step;
@@ -52,7 +52,7 @@ function Rulers() {
           g.lineTo(22 - t, p);
         }
         if (major && u > 0) {
-          const label = String(Math.round(u * scale)).padStart(4, "0");
+          const label = String(Math.round(u * scale));
           if (horizontal) g.fillText(label, p + 3, 9);
           else {
             g.save();
@@ -65,7 +65,7 @@ function Rulers() {
       }
       g.stroke();
       // cursor marker
-      g.fillStyle = pencil;
+      g.fillStyle = markColor;
       g.beginPath();
       if (horizontal) {
         g.moveTo(mark - 4, 0);
@@ -100,38 +100,17 @@ function Rulers() {
   );
 }
 
-/* ---------------- live coordinates + section meter ---------------- */
-function Meter() {
-  const coords = useRef(null);
-  const pct = useRef(null);
-  const section = useUI((s) => s.section);
+/* ---------------- scroll progress as a strip of tape ---------------- */
+function Progress() {
+  const ref = useRef(null);
   useEffect(
     () =>
       onFrame(() => {
-        if (!coords.current) return;
-        const s = useUI.getState().ruler ?? 1;
-        const x = String(Math.round(pointer.x * s)).padStart(4, "0");
-        const y = String(Math.round((pointer.y + scroll.y) * s)).padStart(4, "0");
-        coords.current.textContent = `X ${x}  Y ${y}`;
-        pct.current.textContent = `${String(Math.round(scroll.progress * 100)).padStart(2, "0")}%`;
+        if (ref.current) ref.current.style.transform = `scaleX(${scroll.progress.toFixed(4)})`;
       }),
     []
   );
-  return (
-    <>
-      <div className="meter meter--left t-mono" aria-hidden="true">
-        <span ref={coords}>X 0000 Y 0000</span>
-      </div>
-      <div className="meter meter--right t-mono" aria-hidden="true">
-        <span>
-          §{section.index} {section.label && `— ${section.label}`}
-        </span>
-        <span ref={pct} className="t-faint">
-          00%
-        </span>
-      </div>
-    </>
-  );
+  return <span ref={ref} className="progress" aria-hidden="true" />;
 }
 
 function Header() {
@@ -148,16 +127,15 @@ function Header() {
   return (
     <header className="header">
       <TLink to="/" className="logo" aria-label="ÉTABLI, home" data-cursor="link">
-        ÉTABLI<sup>®</sup>
+        ÉTABLI
       </TLink>
-      <span className="header__tag t-mono t-dim">Collection 01 — Drawn to measure</span>
       <nav className="nav" aria-label="Main">
         {link("/objects", "Objects")}
         {link(
           "/commission",
           "Commission",
-          <span className="nav-count t-mono" aria-label={`${count} items`}>
-            (<Odometer value={String(count).padStart(2, "0")} />)
+          <span className={`nav-count t-data ${count ? "is-full" : ""}`} aria-label={`${count} items`}>
+            <Odometer value={String(count)} />
           </span>
         )}
         <button
@@ -201,12 +179,7 @@ export function Chrome() {
     <div className="chrome">
       <Rulers />
       <Header />
-      <Meter />
-      <i className="crop crop--tl" />
-      <i className="crop crop--tr" />
-      <i className="crop crop--bl" />
-      <i className="crop crop--br" />
-      <div className="grain" aria-hidden="true" />
+      <Progress />
     </div>
   );
 }
