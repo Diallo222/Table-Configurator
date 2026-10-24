@@ -1,0 +1,84 @@
+/* ÉTABLI design tokens.
+   Direction: the workshop floor. Cool primer grey, graphite ink, and tape-measure yellow
+   as the only accent. Yellow is always a fill with ink on top (never text on grey), and it
+   only marks things that are measured or editable right now. */
+:root {
+  /* palette (day) */
+  --paper: #e7e8e4;
+  --paper-2: #dadbd6;
+  --paper-3: #c9cbc5;
+  --ink: #111214;
+  --ink-2: #4b4e52;
+  --ink-3: #85888c;
+  --rule: rgb(17 18 20 / 0.14);
+  --rule-strong: rgb(17 18 20 / 0.34);
+  --accent: #f4c20d;
+  --accent-ink: #111214;
+  --grid: rgb(17 18 20 / 0.06);
+
+  /* type: one family, three widths */
+  --font: "Archivo Variable", "Helvetica Neue", Arial, sans-serif;
+  --w-display: 62%;
+  --w-data: 86%;
+
+  --fs-data: 12px;
+  --fs-ui: 14px;
+  --fs-body: 17px;
+  --fs-h3: clamp(32px, 3.4vw, 54px);
+  --fs-h2: clamp(56px, 8.4vw, 156px);
+  --fs-h1: clamp(80px, 16vw, 320px);
+
+  /* space (8px base) */
+  --s1: 4px;
+  --s2: 8px;
+  --s3: 12px;
+  --s4: 16px;
+  --s5: 24px;
+  --s6: 32px;
+  --s7: 48px;
+  --s8: 64px;
+  --s9: 96px;
+  --gutter: clamp(16px, 2.4vw, 36px);
+  --ruler: 22px;
+
+  /* motion */
+  --ease-draw: cubic-bezier(0.45, 0, 0.55, 1);
+  --ease-fill: cubic-bezier(0.7, 0, 0.2, 1);
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+  --dur-micro: 0.2s;
+  --dur-ui: 0.5s;
+
+  /* layers */
+  --z-lens: 0;
+  --z-canvas: 1;
+  --z-page: 2;
+  --z-chrome: 10;
+  --z-sheet: 20;
+  --z-curtain: 90;
+  --z-loader: 95;
+  --z-cursor: 100;
+
+  color-scheme: light;
+}
+
+:root[data-theme="night"] {
+  --paper: #111214;
+  --paper-2: #1a1c1f;
+  --paper-3: #272a2e;
+  --ink: #e7e8e4;
+  --ink-2: #a3a6a9;
+  --ink-3: #6b6e72;
+  --rule: rgb(231 232 228 / 0.12);
+  --rule-strong: rgb(231 232 228 / 0.3);
+  --accent: #ffcd1f;
+  --accent-ink: #111214;
+  --grid: rgb(231 232 228 / 0.05);
+  color-scheme: dark;
+}
+
+@media (max-width: 760px) {
+  :root {
+    --ruler: 0px;
+    --fs-body: 16px;
+  }
+}
