@@ -8,18 +8,15 @@
     "build": "vite build",
     "lint": "eslint .",
     "preview": "vite preview",
-    "models": "node scripts/optimize-models.mjs"
+    "textures": "node scripts/fetch-textures.mjs"
   },
   "dependencies": {
     "@fontsource-variable/archivo": "^5.3.0",
-    "@gsap/react": "^2.1.2",
     "@react-three/drei": "^10.7.9",
     "@react-three/fiber": "^9.8.2",
-    "@react-three/postprocessing": "^3.2.0",
     "gsap": "^3.15.0",
     "lenis": "^1.3.27",
     "maath": "^0.10.8",
-    "postprocessing": "^6.39.5",
     "react": "^19.3.1",
     "react-dom": "^19.3.1",
     "react-router-dom": "^7.18.4",
@@ -29,23 +26,17 @@
   },
   "devDependencies": {
     "@eslint/js": "^9.0.0",
-    "@gltf-transform/core": "^4.5.1",
-    "@gltf-transform/extensions": "^4.5.1",
-    "@gltf-transform/functions": "^4.5.1",
     "@tailwindcss/vite": "^4.3.3",
-    "@types/react": "^19.1.4",
-    "@types/react-dom": "^19.1.5",
     "@vitejs/plugin-react": "^6.1.2",
     "eslint": "^9.0.0",
     "eslint-plugin-react": "^7.37.0",
     "eslint-plugin-react-hooks": "^5.0.0",
     "eslint-plugin-react-refresh": "^0.4.0",
     "globals": "^15.0.0",
-    "leva": "^0.10.1",
-    "meshoptimizer": "^1.3.0",
     "sharp": "^0.35.5",
     "tailwindcss": "^4.3.3",
     "vite": "^8.3.4"
   },
-  "packageManager": "yarn@4.5.3+sha512.3003a14012e2987072d244c720506549c1aab73ee728208f1b2580a9fd67b92d61ba6b08fe93f6dce68fd771e3af1e59a0afa28dd242dd0940d73b95fedd4e90"
+  "packageManager": "yarn@4.5.3+sha512.3003a14012e2987072d244c720506549c1aab73ee728208f1b2580a9fd67b92d61ba6b08fe93f6dce68fd771e3af1e59a0afa28dd242dd0940d73b95fedd4e90",
+  "description": "ÉTABLI: a made-to-measure furniture configurator in React Three Fiber"
 }
