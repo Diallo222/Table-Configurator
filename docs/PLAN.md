@@ -383,7 +383,7 @@ Each chapter = a DOM section + a canvas "beat" bound to ScrollTrigger progress. 
 - [ ] **P12.3** Pause rendering when tab hidden or canvas offscreen. Selective rendering verified.
 - [ ] **P12.4** Cross-browser: Chrome, Safari (macOS + iOS), Firefox, Edge. Android mid-range device test.
 - [ ] **P12.5** SEO/meta: titles per route, OG images per object (from Snapshot), `sitemap.xml`, favicon set (line-drawn É).
-- [ ] **P12.6** Delete `src/_legacy`, update README (new concept, stack, credits for CC0 assets).
+- [x] **P12.6** Delete `src/_legacy`, update README (new concept, stack, credits for CC0 assets).
 - [ ] **P12.7** Deploy to Vercel (existing project), preview → production.
 - [ ] **P12.8** Awards prep: 30 s screen-capture reel, case-study write-up (Codrops-style), submit to Awwwards / FWA / CSSDA.
 

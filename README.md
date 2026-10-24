@@ -1,58 +1,77 @@
-# 3D Table Configurator
+# ÉTABLI
 
-3D table configurator with React-three-fiber (Three Js) and zustand
+A made-to-measure furniture configurator for a fictional workshop. Six objects, each built as live parametric geometry, so a table really gets longer when you drag its edge instead of being scaled.
 
-##
+![Home: the Atlas table standing inside its own measurements](docs/hero.png)
 
-[![ConfCover](https://github.com/user-attachments/assets/e88a1ddc-6eb4-4419-8a48-19ab3dfcc5cd)](https://table-configurator-navy.vercel.app/)
+## What's in it
 
-## Getting Started
+- **Home**: one reversible scroll story. The table explodes into parts with drawing callouts, the collection slides past on a rail, a plan view stretches the table from 900 to 2400 mm while seats are counted, materials can be dragged onto a stool, and the desk lamp switches the site to night.
+- **Objects**: live 3D objects sitting in their cards, with a Studio grid and a Plan archive (front elevations) switched with GSAP Flip. Clicking a card flies the object into the configurator.
+- **Configurator**: drag the dimension handles or use the tape-measure sliders. Materials bleed in from wherever a swatch is dropped. Studio and Plan (front, side, top) views, a hold-to-see-the-drawing lens, an A4 spec sheet download, and shareable URLs that encode the configuration.
+- **Commission**: an order sheet with snapshot thumbnails of each configuration and a request form. No payment is taken.
 
-Clone this repository by running in your command line.
+![Configurator: Atlas with dimension handles and the section lens](docs/workbench.png)
+
+## Objects
+
+| Object | Type | What you can change |
+|---|---|---|
+| Atlas | Dining table | Width 900–2400 mm, depth, three bases, top and base materials, finish |
+| Mira | Lounge chair | Frame style, upholstery, frame material, finish |
+| Orbit | Desk lamp | Reach, height, colour temperature 2700–4000 K, shade, body |
+| Tripod | Stool | Height 450–800 mm, seat shape, seat and leg materials |
+| Grid | Modular shelving | 1–6 columns, 1–5 rows, open or backed, body |
+| Slab | Side table | Diameter, height, three bases, stone top, finish |
+
+## Stack
+
+React 19, React Three Fiber 9, three.js r186, drei, three-custom-shader-material, GSAP (ScrollTrigger, Flip, SplitText, DrawSVG, ScrambleText), Lenis, Zustand, React Router 7, Vite 8, Tailwind 4 (reset only), Archivo (Fontsource).
+
+Notable choices:
+
+- **One clock.** GSAP's ticker steps Lenis, runs DOM frame hooks, then renders the canvas (`frameloop="never"`), so DOM and WebGL never drift apart.
+- **One persistent canvas** behind every route; pages drive it through plain mutable rigs (`src/webgl/rigs.js`), so objects can move between pages.
+- **Procedural geometry** for every object (`src/webgl/objects/builders.js`), with a drawing-to-matter sweep shader and an ink-bleed material blend (`src/webgl/draft/`).
+- **Sound** is synthesised with Web Audio (off by default); nothing is downloaded.
+
+## Getting started
 
 ```bash
- git clone https://github.com/Diallo222/Table-Configurator.git
+git clone https://github.com/Diallo222/Table-Configurator.git
+cd Table-Configurator
+yarn install
+yarn dev
 ```
 
-Then navigate to the repository and install all dependencies by running
+| Script | What it does |
+|---|---|
+| `yarn dev` | Start the dev server |
+| `yarn build` | Production build to `dist/` |
+| `yarn preview` | Serve the production build |
+| `yarn lint` | ESLint |
+| `yarn textures` | Re-download the Poly Haven textures and convert them to WebP (already committed in `public/textures`) |
 
-```bash
- cd Table-Configurator && yarn install // or npm install
+## Project layout
+
+```
+src/
+  app/        App shell and routes
+  core/       clock, scroll, pointer, route transitions, sound
+  data/       catalog, materials, pricing
+  store/      Zustand stores (config, cart, UI)
+  dom/        chrome, loader, UI kit, pages
+  webgl/      canvas, stage, objects, draft shaders
+  styles/     tokens and CSS
+docs/
+  CONCEPT.md  art direction and experience design
+  PLAN.md     implementation plan and decision log
 ```
 
-After that run the app! by running
+## Credits
 
-```bash
- yarn run dev // or npm run dev
-```
-
-## Features
-
-- Live previews
-- Responsive
-
-## Tech Stack
-
-**Dev:**
-
-[![JavaScript](https://img.shields.io/badge/JavaScript-F7DF1E?style=for-the-badge&logo=javascript&logoColor=black)](https://developer.mozilla.org/fr/docs/Web/JavaScript)
-
-[![React](https://img.shields.io/badge/react-%2320232a.svg?style=for-the-badge&logo=react&logoColor=%2361DAFB)](https://fr.legacy.reactjs.org/)
-
-[![Vite](https://img.shields.io/badge/Vite-FFFFFF?style=for-the-badge&logo=vite&logoColor=yellow)](https://vitejs.dev/)
-
-[![Three](https://img.shields.io/badge/Three.js-000000?style=for-the-badge&logo=three.js&logoColor=white)](https://threejs.org/)
-
-[![React Three Fiber](https://img.shields.io/badge/React_Three_Fiber-000000?style=for-the-badge&logo=three.js&logoColor=white)](https://r3f.docs.pmnd.rs)
-
-**Modelling:**
-
-![Blender](https://img.shields.io/badge/blender-%23F5792A.svg?style=for-the-badge&logo=blender&logoColor=white)
+Wood and fabric textures from [Poly Haven](https://polyhaven.com) (CC0). ÉTABLI is a fictional brand; nothing here can be bought.
 
 ## License
 
-[![MIT License](https://img.shields.io/badge/License-MIT-green.svg)](https://choosealicense.com/licenses/mit/)
-
-## Authors
-
-- [@Almahady Diallo](https://github.com/Diallo222)
+[MIT](LICENSE) © Almahady Diallo
